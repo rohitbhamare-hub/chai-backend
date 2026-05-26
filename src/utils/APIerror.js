@@ -11,6 +11,13 @@ class APIerror extends Error{
         this.message=message
         this.success=false
         this.errors=error
+
+        if(stack){
+            this.stack=stack
+        }
+        else{
+            Error.captureStackTrace(this,this.constructor)
+        }
     }
 }
 
