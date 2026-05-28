@@ -19,7 +19,7 @@ const userSchema=new Schema(
             lowercase:true,
             trim:true
         },
-        fullname:{
+        fullName:{
             type:String,
             required:true,
             index:true,
@@ -51,12 +51,13 @@ const userSchema=new Schema(
     }
 )
 
-userSchema.pre("save", async function(next){
-    if(!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
 
-    this.password= await brcypt.hash(this.password,10)
-    next()
-})
+    if (!this.isModified("password")) return;
+
+    this.password = await bcrypt.hash(this.password, 10);
+
+});
 
 userSchema.methods.isPasswordCorrect=async function(password){
     return await bcrypt.compare(password,this.password)
